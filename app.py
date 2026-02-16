@@ -3,6 +3,7 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 import sys
+import re
 
 sys.path.append(".")
 
@@ -77,9 +78,11 @@ for msg in st.session_state.messages:
         if msg["role"] == "assistant" and "sources" in msg:
             st.markdown("**Sources:**")
             for src in msg["sources"]:
+                match = re.search(r'Article\s+\d+', src)
+                citation = match.group(0) if match else "Jordan Constitution"
                 st.markdown(f"""
                 <div class="source-box">
-                    <span class="law-badge">Jordan Constitution</span><br>
+                    <span class="law-badge">Source: {citation} - Jordan Constitution 1952</span><br>
                     {src[:200]}...
                 </div>
                 """, unsafe_allow_html=True)
@@ -118,9 +121,11 @@ Answer:"""
 
             st.markdown("**Sources:**")
             for src in sources:
+                match = re.search(r'Article\s+\d+', src)
+                citation = match.group(0) if match else "Jordan Constitution"
                 st.markdown(f"""
                 <div class="source-box">
-                    <span class="law-badge">Jordan Constitution</span><br>
+                    <span class="law-badge">Source: {citation} - Jordan Constitution 1952</span><br>
                     {src[:200]}...
                 </div>
                 """, unsafe_allow_html=True)
